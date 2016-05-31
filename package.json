@@ -1,6 +1,6 @@
 {
   "name": "withings-oauth2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Withings API for NodeJS",
   "main": "dist/Withings.js",
   "scripts": {
