@@ -1,0 +1,35 @@
+{
+  "name": "fitbit-lib",
+  "version": "0.0.3",
+  "description": "Fitbit API for NodeJS",
+  "main": "dist/Fitbit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fitbit"
+  ],
+  "author": "Johan Pujol",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/workfel/fitbit-lib.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "gulp": "^3.9.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^2.10.0",
+    "merge2": "^1.0.0",
+    "typescript": "^1.8.0",
+    "typings": "1.0.4"
+  },
+  "dependencies": {
+    "moment": "^2.10.6",
+    "oauth": "^0.9.14",
+    "querystring": "^0.2.0",
+  }
+}
