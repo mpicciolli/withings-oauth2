@@ -1,18 +1,18 @@
 {
-  "name": "fitbit-lib",
-  "version": "0.0.3",
-  "description": "Fitbit API for NodeJS",
-  "main": "dist/Fitbit.js",
+  "name": "withings-oauth2",
+  "version": "0.0.1",
+  "description": "Withings API for NodeJS",
+  "main": "dist/Withings.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "fitbit"
   ],
-  "author": "Johan Pujol",
+  "author": "Mathieu PICCIOLLI",
   "repository": {
     "type": "git",
-    "url": "https://github.com/workfel/fitbit-lib.git"
+    "url": "https://github.com/mpicciolli/withings-oauth2.git"
   },
   "license": "ISC",
   "devDependencies": {
@@ -30,6 +30,6 @@
   "dependencies": {
     "moment": "^2.10.6",
     "oauth": "^0.9.14",
-    "querystring": "^0.2.0",
+    "querystring": "^0.2.0"
   }
 }
