@@ -1,9 +1,8 @@
 var express = require('express');
-var config = require('./config/app');
 var app = express();
-var Withings = require('withings-lib');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var Withings = require('../dist/Withings').Withings;
 
 app.use(cookieParser());
 app.use(session({secret: 'bigSecret'}));
@@ -13,9 +12,9 @@ app.listen(3000);
 app.get('/', function (req, res) {
     // Create an API client and start authentication via OAuth
     var options = {
-        consumerKey: config.CONSUMER_KEY,
-        consumerSecret: config.CONSUMER_SECRET,
-        callbackUrl: config.CALLBACK_URL
+        consumerKey: process.env.CONSUMER_KEY,
+        consumerSecret: process.env.CONSUMER_SECRET,
+        callbackUrl: process.env.CALLBACK_URL
     };
     var client = new Withings(options);
 
