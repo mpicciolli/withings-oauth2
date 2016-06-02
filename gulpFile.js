@@ -7,12 +7,13 @@ var gulp = require("gulp"),
     insert = require('gulp-insert'),
     sourcemaps = require('gulp-sourcemaps');
 
+var mocha = require('gulp-mocha');
+
 var rootDir = "file://" + __dirname;
 process.on('uncaughtException', console.error.bind(console));
 
-gulp.task('default', ['clean'], function () {
-    gulp.start('compile-ts');
-    return gulp.watch('src/**/*.ts', ['compile-ts']);
+gulp.task('default', ['test'], function () {
+
 });
 
 
@@ -39,4 +40,10 @@ gulp.task("compile-ts", [], function () {
                 .pipe(gulp.dest('dist'))
         ]
     );
+});
+
+
+gulp.task('test', function () {
+    return gulp.src('test/**-spec.js', {read: false})
+        .pipe(mocha({reporter: 'nyan'}));
 });
