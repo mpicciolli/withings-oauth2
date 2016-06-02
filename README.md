@@ -1,8 +1,5 @@
 # withings-oauth2
 [![NPM][npm-image]][npm-url]
-
-[![Build Status][travis-image]][travis-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 
 Withings API library for node.js
