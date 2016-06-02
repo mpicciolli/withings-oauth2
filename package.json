@@ -1,6 +1,6 @@
 {
   "name": "withings-oauth2",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Withings API for NodeJS",
   "main": "dist/Withings.js",
   "typings": "dist/Fitbit.d.ts",
