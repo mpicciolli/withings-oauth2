@@ -3,13 +3,20 @@
   "version": "0.0.3",
   "description": "Withings API for NodeJS",
   "main": "dist/Withings.js",
+  "typings": "dist/Fitbit.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp"
   },
+  "files": ["dist/"],
   "keywords": [
-    "withings"
+    "withings",
+    "typescript",
+    "oauth2"
   ],
-  "author": "Mathieu PICCIOLLI",
+  "author": {
+    "name": "Mathieu PICCIOLLI",
+    "email": "mathieu.picciolli@gmail.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mpicciolli/withings-oauth2.git"
