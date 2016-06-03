@@ -3,6 +3,8 @@
 
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+
 
 Withings API library for node.js
 
@@ -217,3 +219,6 @@ Licensed under [Apache 2.0](./LICENSE).
 [travis-url]:https://travis-ci.org/mpicciolli/withings-oauth2
 [daviddm-image]: https://david-dm.org/mpicciolli/withings-oauth2.svg
 [daviddm-url]: https://david-dm.org/mpicciolli/withings-oauth2
+[coveralls-image]: https://coveralls.io/repos/github/mpicciolli/withings-oauth2/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/mpicciolli/withings-oauth2?branch=master
+
