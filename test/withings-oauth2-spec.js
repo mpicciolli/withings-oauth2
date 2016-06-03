@@ -81,5 +81,7 @@ describe('Withings API Client:', function () {
 
     });
 
+    
+    
 
 });
