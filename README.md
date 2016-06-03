@@ -1,5 +1,7 @@
 # withings-oauth2
 [![NPM][npm-image]][npm-url]
+
+[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 
 Withings API library for node.js
@@ -209,8 +211,9 @@ See release notes [here](./RELEASENOTES.md).
 
 Licensed under [Apache 2.0](./LICENSE).
 
-
 [npm-image]: https://nodei.co/npm/withings-oauth2.png
 [npm-url]: https://nodei.co/npm/withings-oauth2/
+[travis-image]: https://travis-ci.org/mpicciolli/withings-oauth2.svg?branch=master
+[travis-url]:https://travis-ci.org/mpicciolli/withings-oauth2
 [daviddm-image]: https://david-dm.org/mpicciolli/withings-oauth2.svg
 [daviddm-url]: https://david-dm.org/mpicciolli/withings-oauth2
