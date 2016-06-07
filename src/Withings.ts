@@ -26,28 +26,45 @@ var moment = require('moment');
 export interface IWithings {
     //OAuth
     getRequestToken(cb:(err:any, token:string, tokenSecret:string) => any):void;
+    getRequestTokenAsync():Promise<any>
     authorizeUrl(token:string, tokenSecret:string):string;
-    getAccessToken(token, tokenSecret, verifier, cb:any):void;
+    getAccessToken(token:string, tokenSecret:string, verifier:string, cb:(err:any, token:string, tokenSecret:string)=>any):void;
+    getAccessTokenAsync(token:string, tokenSecret:string, verifier:string):Promise<any>
 
     //API Base Methods
-    apiCall(url:string, method:string, cb:any):void
-    get(service:string, action:string, params:any, cb:any):void
-    post(service:string, action:string, params:any, cb:any):void
+    apiCall(url:string, method:string, cb:(err:any, data:any)=>any):void
+    apiCallAsync(url:string, method:string, cb:any):Promise<any>
+    get(service:string, action:string, params:(err:any, data:any)=>any, cb:any):void
+    getAsync(service:string, action:string, params:any, cb:any):Promise<any>
+    post(service:string, action:string, params:(err:any, data:any)=>any, cb:any):void
+    postAsync(service:string, action:string, params:any, cb:any):Promise<any>
 
     //Measures
-    getDailyActivity(date:string|Date, cb:any):void;
-    getDailySteps(date:string|Date, cb:any):void;
-    getDailyCalories(date:string|Date, cb:any):void;
-    getMeasures(measType:number, startDate:string|Date, endDate:string|Date, cb:any):void
-    getWeightMeasures(startDate:string|Date, endDate:string|Date, cb:any):void;
-    getPulseMeasures(startDate:string|Date, endDate:string|Date, cb:any):void;
-    getSleepSummary(startDate:string|Date, endDate:string|Date, cb:any):void;
+    getDailyActivity(date:string|Date, cb:(err:any, data:any)=>any):void;
+    getDailyActivityAsync(date:string|Date):Promise<any>;
+    getDailySteps(date:string|Date, cb:(err:any, data:any)=>any):void;
+    getDailyStepsAsync(date:string|Date):Promise<any>;
+    getDailyCalories(date:string|Date, cb:(err:any, data:any)=>any):void;
+    getDailyCaloriesAsync(date:string|Date):Promise<any>;
+    getMeasures(measType:number, startDate:string|Date, endDate:string|Date, cb:(err:any, data:any)=>any):void
+    getMeasuresAsync(measType:number, startDate:string|Date, endDate:string|Date):Promise<any>;
+    getWeightMeasures(startDate:string|Date, endDate:string|Date, cb:(err:any, data:any)=>any):void;
+    getWeightMeasuresAsync(startDate:string|Date, endDate:string|Date):Promise<any>;
+    getPulseMeasures(startDate:string|Date, endDate:string|Date, cb:(err:any, data:any)=>any):void;
+    getPulseMeasuresAsync(startDate:string|Date, endDate:string|Date):Promise<any>;
+    getSleepSummary(startDate:string|Date, endDate:string|Date, cb:(err:any, data:any)=>any):void;
+    getSleepSummaryAsync(startDate:string|Date, endDate:string|Date):Promise<any>;
 
     //Notifications
-    createNotification(callbackUrl:string, comment:string, appli:number, cb:any):void;
-    getNotification(callbackUrl:string, appli:number, cb:any):void;
-    listNotifications(appli:number, cb:any):void;
-    revokeNotification(callbackUrl:string, appli:number, cb:any):void;
+    createNotification(callbackUrl:string, comment:string, appli:number, cb:(err:any, data:any)=>any):void;
+    createNotificationAsync(callbackUrl:string, comment:string, appli:number):Promise<any>;
+    getNotification(callbackUrl:string, appli:number, cb:(err:any, data:any)=>any):void;
+    getNotificationAsync(callbackUrl:string, appli:number):Promise<any>;
+    listNotifications(appli:number, cb:(err:any, data:any)=>any):void;
+    listNotificationsAsync(appli:number):Promise<any>;
+    revokeNotification(callbackUrl:string, appli:number, cb:(err:any, data:any)=>any):void;
+    revokeNotificationAsync(callbackUrl:string, appli:number):Promise<any>;
+
 }
 
 export interface WhitingsOptionModel {
@@ -60,6 +77,7 @@ export interface WhitingsOptionModel {
 }
 
 export class Withings implements IWithings {
+
     //API EndPoints
     public static requestToken:string = "https://oauth.withings.com/account/request_token";
     public static accessToken:string = "https://oauth.withings.com/account/access_token";
@@ -97,12 +115,36 @@ export class Withings implements IWithings {
         this.oauth.getOAuthRequestToken(cb);
     }
 
+    getRequestTokenAsync():Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.oauth.getOAuthRequestToken(function (err:any, token:string, tokenSecret:string) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({"token": token, "tokenSecret": tokenSecret});
+                }
+            });
+        });
+    }
+
     authorizeUrl(token:string, tokenSecret:string):string {
         return this.oauth.signUrl(Withings.authorize, token, tokenSecret);
     }
 
     getAccessToken(token, tokenSecret, verifier, cb:any):void {
         this.oauth.getOAuthAccessToken(token, tokenSecret, verifier, cb);
+    }
+
+    getAccessTokenAsync(token, tokenSecret, verifier):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.oauth.getOAuthAccessToken(token, tokenSecret, verifier, function (err:any, accessToken:string, accesstokenSecret:string) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({"token": accessToken, "tokenSecret": accesstokenSecret});
+                }
+            });
+        });
     }
 
     apiCall(url:string, method:string, cb:any):void {
@@ -129,6 +171,18 @@ export class Withings implements IWithings {
         }
     }
 
+    apiCallAsync(url:string, method:string, cb:any):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.apiCall(url, method, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     get(service:string, action:string, params:any, cb:any):void {
         if (!cb) {
             cb = params;
@@ -148,6 +202,18 @@ export class Withings implements IWithings {
         this.apiCall(url, 'get', cb);
     }
 
+    getAsync(service:string, action:string, params:any, cb:any):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.get(service, action, params,function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     post(service:string, action:string, params:any, cb:any):void {
         if (!cb) {
             cb = params;
@@ -162,11 +228,35 @@ export class Withings implements IWithings {
         this.apiCall(url, 'post', cb);
     }
 
+    postAsync(service:string, action:string, params:any, cb:any):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.post(service, action, params,function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     getDailyActivity(date:string|Date, cb:any):void {
         var params = {
             date: moment(date).format('YYYY-MM-DD')
         };
         this.get('measure', 'getactivity', params, cb);
+    }
+
+    getDailyActivityAsync(date:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getDailyActivity(date, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
     }
 
     getDailySteps(date:string|Date, cb:any):void {
@@ -180,6 +270,18 @@ export class Withings implements IWithings {
                 // leave data as-is
             }
             cb(null, data.body.steps);
+        });
+    }
+
+    getDailyStepsAsync(date:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getDailySteps(date, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
         });
     }
 
@@ -197,6 +299,18 @@ export class Withings implements IWithings {
         });
     }
 
+    getDailyCaloriesAsync(date:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getDailyCalories(date, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     getMeasures(measType:number, startDate:string|Date, endDate:string|Date, cb:any):void {
         var params = {
             startdate: moment(startDate).unix(),
@@ -204,6 +318,18 @@ export class Withings implements IWithings {
             meastype: measType
         };
         this.get('measure', 'getmeas', params, cb);
+    }
+
+    getMeasuresAsync(measType:number, startDate:string|Date, endDate:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getMeasures(measType, startDate, endDate, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
     }
 
     getWeightMeasures(startDate:string|Date, endDate:string|Date, cb:any):void {
@@ -220,6 +346,18 @@ export class Withings implements IWithings {
         });
     }
 
+    getWeightMeasuresAsync(startDate:string|Date, endDate:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getWeightMeasures(startDate, endDate, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     getPulseMeasures(startDate:string|Date, endDate:string|Date, cb:any):void {
         this.getMeasures(11, startDate, endDate, function (err, data) {
             if (err) {
@@ -231,6 +369,18 @@ export class Withings implements IWithings {
                 // leave data as-is
             }
             cb(null, data.body.measuregrps);
+        });
+    }
+
+    getPulseMeasuresAsync(startDate:string|Date, endDate:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getPulseMeasures(startDate, endDate, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
         });
     }
 
@@ -252,6 +402,18 @@ export class Withings implements IWithings {
         });
     }
 
+    getSleepSummaryAsync(startDate:string|Date, endDate:string|Date):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getSleepSummary(startDate, endDate, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     createNotification(callbackUrl:string, comment:string, appli:number, cb:any):void {
         var params = {
             callbackurl: callbackUrl,
@@ -268,6 +430,18 @@ export class Withings implements IWithings {
                 // leave data as-is
             }
             cb(null, data);
+        });
+    }
+
+    createNotificationAsync(callbackUrl:string, comment:string, appli:number):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.createNotification(callbackUrl, comment, appli, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
         });
     }
 
@@ -296,15 +470,27 @@ export class Withings implements IWithings {
         });
     }
 
+    getNotificationAsync(callbackUrl:string, appli:number):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getNotification(callbackUrl, appli, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
+
     listNotifications(appli:number, cb:any):void {
         if (!cb) {
             cb = appli;
             appli = null;
         }
         var params = {
-            appli: null
-    }
-        ;
+                appli: null
+            }
+            ;
         if (appli) {
             params.appli = appli;
         }
@@ -318,6 +504,18 @@ export class Withings implements IWithings {
                 // leave data as-is
             }
             cb(null, data.body.profiles);
+        });
+    }
+
+    listNotificationsAsync(appli:number):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.listNotifications(appli, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
         });
     }
 
@@ -346,4 +544,15 @@ export class Withings implements IWithings {
         });
     }
 
+    revokeNotificationAsync(callbackUrl:string, appli:number):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.revokeNotification(callbackUrl, appli, function (err,data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        });
+    }
 }
