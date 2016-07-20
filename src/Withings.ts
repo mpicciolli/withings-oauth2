@@ -35,7 +35,7 @@ export interface IWithings {
     apiCall(url:string, method:string, cb:(err:any, data:any)=>any):void
     apiCallAsync(url:string, method:string, cb:any):Promise<any>
     get(service:string, action:string, params:(err:any, data:any)=>any, cb:any):void
-    getAsync(service:string, action:string, params:any, cb:any):Promise<any>
+    getAsync(service:string, action:string, params:any):Promise<any>
     post(service:string, action:string, params:(err:any, data:any)=>any, cb:any):void
     postAsync(service:string, action:string, params:any, cb:any):Promise<any>
 
@@ -202,7 +202,7 @@ export class Withings implements IWithings {
         this.apiCall(url, 'get', cb);
     }
 
-    getAsync(service:string, action:string, params:any, cb:any):Promise<any> {
+    getAsync(service:string, action:string, params:any):Promise<any> {
         return new Promise((resolve, reject) => {
             this.get(service, action, params,function (err,data) {
                 if (err) {

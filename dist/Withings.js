@@ -98,7 +98,7 @@ class Withings {
         var url = baseUrl + service + '?' + qs.stringify(params);
         this.apiCall(url, 'get', cb);
     }
-    getAsync(service, action, params, cb) {
+    getAsync(service, action, params) {
         return new Promise((resolve, reject) => {
             this.get(service, action, params, function (err, data) {
                 if (err) {
