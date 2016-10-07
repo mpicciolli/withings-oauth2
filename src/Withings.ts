@@ -147,6 +147,7 @@ export class Withings implements IWithings {
         });
     }
 
+
     apiCall(url:string, method:string, cb:any):void {
         var that = this;
 
@@ -161,6 +162,11 @@ export class Withings implements IWithings {
 
         if (method === 'get') {
             this.oauth.get(signedUrl, this.accessToken, this.accessTokenSecret, function (err, data, res) {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    cb.call(that, err, err);
+                }
                 cb.call(that, err, data);
             });
         }
@@ -264,11 +270,6 @@ export class Withings implements IWithings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
-            }
             cb(null, data.body.steps);
         });
     }
@@ -289,11 +290,6 @@ export class Withings implements IWithings {
         this.getDailyActivity(date, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
             }
             cb(null, data.body.calories);
         });
@@ -337,11 +333,6 @@ export class Withings implements IWithings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
-            }
             cb(null, data.body.measuregrps);
         });
     }
@@ -362,11 +353,6 @@ export class Withings implements IWithings {
         this.getMeasures(11, startDate, endDate, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
             }
             cb(null, data.body.measuregrps);
         });
@@ -393,11 +379,6 @@ export class Withings implements IWithings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
-            }
             cb(null, data.body.series);
         });
     }
@@ -423,11 +404,6 @@ export class Withings implements IWithings {
         this.get('notify', 'subscribe', params, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
             }
             cb(null, data);
         });
@@ -461,11 +437,6 @@ export class Withings implements IWithings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
-            }
             cb(null, data.body);
         });
     }
@@ -498,11 +469,6 @@ export class Withings implements IWithings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
-            }
             cb(null, data.body.profiles);
         });
     }
@@ -534,11 +500,6 @@ export class Withings implements IWithings {
         this.get('notify', 'revoke', params, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                // leave data as-is
             }
             cb(null, data);
         });

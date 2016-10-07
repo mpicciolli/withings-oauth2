@@ -60,6 +60,12 @@ class Withings {
         var signedUrl = this.oauth.signUrl(url, this.accessToken, this.accessTokenSecret);
         if (method === 'get') {
             this.oauth.get(signedUrl, this.accessToken, this.accessTokenSecret, function (err, data, res) {
+                try {
+                    data = JSON.parse(data);
+                }
+                catch (error) {
+                    cb.call(that, err, err);
+                }
                 cb.call(that, err, data);
             });
         }
@@ -156,11 +162,6 @@ class Withings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
-            }
             cb(null, data.body.steps);
         });
     }
@@ -180,11 +181,6 @@ class Withings {
         this.getDailyActivity(date, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
             }
             cb(null, data.body.calories);
         });
@@ -226,11 +222,6 @@ class Withings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
-            }
             cb(null, data.body.measuregrps);
         });
     }
@@ -250,11 +241,6 @@ class Withings {
         this.getMeasures(11, startDate, endDate, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
             }
             cb(null, data.body.measuregrps);
         });
@@ -280,11 +266,6 @@ class Withings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
-            }
             cb(null, data.body.series);
         });
     }
@@ -309,11 +290,6 @@ class Withings {
         this.get('notify', 'subscribe', params, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
             }
             cb(null, data);
         });
@@ -346,11 +322,6 @@ class Withings {
             if (err) {
                 return cb(err);
             }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
-            }
             cb(null, data.body);
         });
     }
@@ -380,11 +351,6 @@ class Withings {
         this.get('notify', 'list', params, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
             }
             cb(null, data.body.profiles);
         });
@@ -416,11 +382,6 @@ class Withings {
         this.get('notify', 'revoke', params, function (err, data) {
             if (err) {
                 return cb(err);
-            }
-            try {
-                data = JSON.parse(data);
-            }
-            catch (error) {
             }
             cb(null, data);
         });
