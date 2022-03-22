@@ -79,9 +79,9 @@ export interface WhitingsOptionModel {
 export class Withings implements IWithings {
 
     //API EndPoints
-    public static requestToken:string = "https://oauth.withings.com/account/request_token";
-    public static accessToken:string = "https://oauth.withings.com/account/access_token";
-    public static authorize:string = "https://oauth.withings.com/account/authorize";
+    public static requestToken:string = "https://wbsapi.withings.net/v2/oauth2";
+    public static accessToken:string = "https://wbsapi.withings.net/v2/oauth2";
+    public static authorize:string = "https://account.withings.com/oauth2_user/authorize2";
 
     private accessToken:string;
     private accessTokenSecret:string;
